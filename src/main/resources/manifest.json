@@ -1,7 +1,7 @@
 {
     "Group": "com.msgames",
-    "Name": "BiggerStackBackpacks",
-    "Version": "2026.3.8-79436",
+    "Name": "BiggerStacksBackpacks",
+    "Version": "2026.3.8-81142",
     "IncludesAssetPack": true,
     "Dependencies": {
         "com.msgames:StackMultiplierContainerPlugin": "*"

@@ -1,1 +1,1 @@
-rootProject.name = "BiggerStackBackpacks"
+rootProject.name = "BiggerStacksBackpacks"

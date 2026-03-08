@@ -60,11 +60,68 @@ val buildPackZip = tasks.register<Zip>("buildPackZip") {
     description = "Packages the content pack as a ZIP file"
     dependsOn("updatePluginManifest")
     from("src/main/resources")
-    archiveBaseName.set("BiggerStackBackpacks")
+    archiveBaseName.set("BiggerStacksBackpacks")
     archiveVersion.set(project.version.toString())
     destinationDirectory.set(layout.buildDirectory.dir("pack"))
 }
 
 tasks.named("build") {
     dependsOn(buildPackZip)
+    mustRunAfter("clean")
+}
+
+tasks.register("release") {
+    group = "build"
+    dependsOn("clean", "build")
+    description = "Builds the content pack and creates a GitHub release. Usage: ./gradlew release [-Ppatchline=beta]"
+
+    val tag = "v${project.version}"
+    val projectDir = project.projectDir
+    val releasePatchline = patchline
+    val releaseServerVersion = serverVersion
+
+    doLast {
+        for (cmd in listOf("git", "gh")) {
+            try {
+                ProcessBuilder(cmd, "--version").start().waitFor()
+            } catch (_: Exception) {
+                error("'$cmd' is not available on PATH. Install it and run this task from a terminal.")
+            }
+        }
+
+        val zipFile = fileTree("build/pack") { include("*.zip") }.singleFile
+
+        fun run(vararg args: String) {
+            val process = ProcessBuilder(*args)
+                .directory(projectDir)
+                .inheritIO()
+                .start()
+            val exitCode = process.waitFor()
+            if (exitCode != 0) error("Command failed (exit $exitCode): ${args.joinToString(" ")}")
+        }
+
+        val commitProcess = ProcessBuilder("git", "rev-parse", "HEAD")
+            .directory(projectDir)
+            .start()
+        val commitHash = commitProcess.inputStream.bufferedReader().readText().trim()
+        commitProcess.waitFor()
+
+        val releaseNotes = """
+            ## Build Info
+            - **Patchline:** $releasePatchline
+            - **Server Version:** $releaseServerVersion
+            - **Commit:** $commitHash
+        """.trimIndent()
+
+        run("git", "tag", tag)
+        run("git", "push", "origin", tag)
+
+        run("gh", "release", "create", tag,
+            "\"${zipFile.absolutePath}\"",
+            "--title", tag,
+            "--notes", releaseNotes,
+            "--generate-notes")
+
+        logger.lifecycle("Release $tag created with ${zipFile.name}")
+    }
 }

@@ -1,4 +1,4 @@
-# BiggerStackBackpacks
+# BiggerStacksBackpacks
 
 A Hytale content pack that adds stack multiplier upgrades to backpacks, allowing players to store more items per slot.
 
