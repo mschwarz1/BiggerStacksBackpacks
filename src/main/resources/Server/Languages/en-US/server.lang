@@ -1,0 +1,12 @@
+items.UpgradeStackMultiplier_1.name=Stack Compressor I
+items.UpgradeStackMultiplier_1.description=Doubles the stack size of your backpack slots. (2x total)
+items.UpgradeStackMultiplier_2.name=Stack Compressor II
+items.UpgradeStackMultiplier_2.description=Doubles the stack size of your backpack slots. (4x total)
+items.UpgradeStackMultiplier_3.name=Stack Compressor III
+items.UpgradeStackMultiplier_3.description=Doubles the stack size of your backpack slots. (8x total)
+items.UpgradeStackMultiplier_4.name=Stack Compressor IV
+items.UpgradeStackMultiplier_4.description=Doubles the stack size of your backpack slots. (16x total)
+items.UpgradeStackMultiplier_5.name=Stack Compressor V
+items.UpgradeStackMultiplier_5.description=Doubles the stack size of your backpack slots. (32x total)
+items.UpgradeStackMultiplier_6.name=Stack Compressor VI
+items.UpgradeStackMultiplier_6.description=Doubles the stack size of your backpack slots. (64x total)
